@@ -30,8 +30,8 @@ class Server {
       }
 
     listen() {
-        this.app.listen(this.port, () => {
-            console.log('Listening port', this.port);
+        this.app.listen(80, () => {
+            console.log('Listening port', 80);
         });
     }
 
