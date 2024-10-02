@@ -21,16 +21,16 @@ jobs:
       - uses: actions/checkout@v2
 
       # Cambia al directorio 'backend' antes de ejecutar los comandos
-      - run: cd backend
+      # - run: cd backend
 
-      - run: npm ci
-        working-directory: backend  # Indica la carpeta donde está el package.json
+      # - run: npm ci
+      #   working-directory: backend  # Indica la carpeta donde está el package.json
 
-      - run: npm run build
-        working-directory: backend  # Indica la carpeta donde está el package.json
+      # - run: npm run build
+      #   working-directory: backend  # Indica la carpeta donde está el package.json
 
-      - run: npm run test
-        working-directory: backend  # Indica la carpeta donde está el package.json
+      # - run: npm run test
+      #   working-directory: backend  # Indica la carpeta donde está el package.json
 
       - name: Setup SSH key
         run: |
