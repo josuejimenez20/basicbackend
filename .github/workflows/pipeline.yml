@@ -20,9 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Cambia al directorio 'backend'
-      - name: Change to backend directory
-        run: cd backend
+      # Cambia al directorio 'backend' antes de ejecutar los comandos
+      - run: cd backend
 
       - run: npm ci
         working-directory: backend  # Indica la carpeta donde está el package.json
