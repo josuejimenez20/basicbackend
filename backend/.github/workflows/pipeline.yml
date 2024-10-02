@@ -1,49 +1,49 @@
-name: CI
-
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
-
+    push:
+      branches: [ main ]
+    pull_request:
+      branches: [ main ]
+    workflow_dispatch:
+  
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+      runs-on: ubuntu-latest
+  
+      if: github.ref == 'refs/heads/main'
+  
+      strategy:
+        matrix:
+          node-version: [14.x]
+  
+      steps:
+        - uses: actions/checkout@v2
+  
+        # Cambia al directorio 'backend'
+        - name: Change to backend directory
+          run: cd backend
+  
+        - run: npm ci
+          working-directory: backend  # Indica la carpeta donde está el package.json
+  
+        - run: npm run build
+          working-directory: backend  # Indica la carpeta donde está el package.json
+  
+        - run: npm run test
+          working-directory: backend  # Indica la carpeta donde está el package.json
+  
+        - name: Setup SSH key
+          run: |
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
 
-    if: github.ref == 'refs/heads/main'
+        - name: rsync deployments
+          uses: burnett01/rsync-deployments@5.1
+          with:
+            switches: -avzr --delete
+            path: ./*
+            remote_path: /basicbackend
+            remote_host: 54.211.124.232.compute.amazonaws.com
+            remote_user: ec2-user  # Cambiado a ec2-user
+            remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
 
-    strategy:
-      matrix:
-        node-version: [14.x]
 
-    steps:
-      - uses: actions/checkout@v2
-
-      # Cambia al directorio 'backend'
-      - name: Change to backend directory
-        run: cd backend
-
-      - run: npm ci
-        working-directory: backend  # Indica la carpeta donde está el package.json
-
-      - run: npm run build
-        working-directory: backend  # Indica la carpeta donde está el package.json
-
-      - run: npm run test
-        working-directory: backend  # Indica la carpeta donde está el package.json
-
-      - name: Setup SSH key
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.1
-        with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /basicbackend/backend
-          remote_host: 54.211.124.232.compute.amazonaws.com
-          remote_user: ec2-user
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
