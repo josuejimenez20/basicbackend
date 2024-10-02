@@ -20,9 +20,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # Cambia al directorio 'backend'
+      - name: Change to backend directory
+        run: cd backend
+
       - run: npm ci
+        working-directory: backend  # Indica la carpeta donde está el package.json
+
       - run: npm run build
+        working-directory: backend  # Indica la carpeta donde está el package.json
+
       - run: npm run test
+        working-directory: backend  # Indica la carpeta donde está el package.json
 
       - name: Setup SSH key
         run: |
@@ -36,5 +45,5 @@ jobs:
           path: ./*
           remote_path: /basicbackend/backend
           remote_host: 54.211.124.232.compute.amazonaws.com
-          remote_user: ec2-user  # Cambiado a ec2-user
+          remote_user: ec2-user
           remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
