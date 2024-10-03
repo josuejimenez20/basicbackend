@@ -21,7 +21,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: ./backend/
-          target: /home/ec2-user/your_app_directory/basicbackend/backend
+          target: /home/ec2-user/basicbackend/backend
 
       - name: Restart PM2
-        run: ssh ec2-user@44.203.90.191 'sudo pm2 restart backend'
+        run: ssh -i ~/.ssh/id_rsa ec2-user@44.203.90.191 'sudo pm2 restart backend'
