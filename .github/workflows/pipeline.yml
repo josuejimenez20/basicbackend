@@ -1,48 +1,23 @@
-name: CI
+name: Deploy to EC2
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-
-    if: github.ref == 'refs/heads/main'
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
-      - uses: actions/checkout@v2
-
-      # Cambia al directorio 'backend' antes de ejecutar los comandos
-      # - run: cd backend
-
-      # - run: npm ci
-      #   working-directory: backend  # Indica la carpeta donde está el package.json
-
-      # - run: npm run build
-      #   working-directory: backend  # Indica la carpeta donde está el package.json
-
-      # - run: npm run test
-      #   working-directory: backend  # Indica la carpeta donde está el package.json
-
-      - name: Setup SSH key
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.1
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Deploy to EC2
+        uses: appleboy/scp-action@master
         with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /basicbackend/backend
-          remote_host: 54.211.124.232.compute.amazonaws.com
-          remote_user: ec2-user
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+          host: 44.203.90.191
+          username: ec2-user
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ./backend/
+          target: /home/ec2-user/basicbackend/backend
+      - name: Restart PM2
+        run: ssh ec2-user@44.203.90.191 'sudo pm2 restart app'
