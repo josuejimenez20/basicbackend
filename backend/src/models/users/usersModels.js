@@ -17,7 +17,7 @@ function getInformationUserModels() {
     //         })
     // })
 
-    return "Hello from users models new version Josue Last"
+    return "Hello from users models new version Josue Last V5"
 }
 
 
