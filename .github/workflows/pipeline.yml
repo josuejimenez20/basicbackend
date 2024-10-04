@@ -33,4 +33,4 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       - name: Restart PM2
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@52.91.196.14 'sudo pm2 start app.js --name nodejsapi'
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@52.91.196.14 'sudo pm2 restart nodejsapi'
