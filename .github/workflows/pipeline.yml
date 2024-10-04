@@ -20,11 +20,11 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: 52.207.255.220
-          username: root
+          username: ec2-user
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: '22'
           source: ./backend/*
-          target: /home/root/basicbackend/
+          target: /home/ec2-user/basicbackend/
 
       - name: Add SSH key
         run: |
@@ -33,4 +33,4 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
 
       # - name: Restart PM2
-      #   run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@52.207.255.220 'sudo pm2 restart nodejsapi'
+      #   run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@52.207.255.220 'sudo pm2 restart nodejsapi'
