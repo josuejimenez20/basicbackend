@@ -17,7 +17,7 @@ function getInformationUserModels() {
     //         })
     // })
 
-    return "Hello from users models new version Solution Architect Josue - XalDigital"
+    return "Hello from users models new version Solution Architect Josue - XalDigital V2"
 }
 
 
