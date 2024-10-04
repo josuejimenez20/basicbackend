@@ -17,7 +17,7 @@ function getInformationUserModels() {
     //         })
     // })
 
-    return "Hello from users models new version Josue Last Version"
+    return "Hello from users models new version Solution Architect Josue"
 }
 
 
