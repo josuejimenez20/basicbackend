@@ -24,7 +24,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: '22'
           source: ./
-          target: /home/ec2-user/basicbackend/backend/
+          target: /home/ec2-user/basicbackend/
 
       - name: Add SSH key
         run: |
@@ -32,5 +32,5 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-      # - name: Restart PM2
-      #   run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@52.91.196.14 'sudo pm2 restart nodejsapi'
+      - name: Restart PM2
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@52.91.196.14 'sudo pm2 restart nodejsapi'
