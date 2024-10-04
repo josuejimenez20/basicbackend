@@ -17,7 +17,7 @@ function getInformationUserModels() {
     //         })
     // })
 
-    return "Hello from users models new version v3"
+    return "Hello from users models new version v4"
 }
 
 
