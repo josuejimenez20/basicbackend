@@ -24,7 +24,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: '22'
           source: ./backend/
-          target: /home/ec2-user/basicbackend/
+          target: /home/ec2-user/basicbackend/ff
 
       - name: Add SSH key
         run: |
